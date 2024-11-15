@@ -43,8 +43,8 @@ namespace ds4dt_interface
             static_cast<size_t>(BUTTONS_DUALSHOCK4::START);
         this->btn_idx_->PS =
             static_cast<size_t>(BUTTONS_DUALSHOCK4::PS);
-       // this->btn_idx_->touchpad =
-       //     static_cast<size_t>(BUTTONS_DUALSHOCK4::TOUCHPAD);
+        this->btn_idx_->touchpad =
+            static_cast<size_t>(BUTTONS_DUALSHOCK4::TOUCHPAD);
 
         this->axes_idx_->stick_lx =
             static_cast<size_t>(AXES_DUALSHOCK4::STICK_LX);
@@ -182,7 +182,7 @@ bool PlayStationInterface::pressedPS()
   return this->joy_->buttons.at(
     this->btn_idx_->PS);
 }
-/*
+
 bool PlayStationInterface::pressedTouchpad()
 {
   if (!this->isAvailable()) {
@@ -191,7 +191,7 @@ bool PlayStationInterface::pressedTouchpad()
   return this->joy_->buttons.at(
     this->btn_idx_->touchpad);
 }
-*/
+
 
 
 

@@ -3,9 +3,9 @@
 <package format="3">
   <name>ds4dt_test</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Test node for DS4 Interface</description>
   <maintainer email="hevcuesta@gmail.com">daniel</maintainer>
-  <license>TODO: License declaration</license>
+  <license>GPL 3.0</license>
 
   <depend>ds4dt_interface</depend>
   <depend>rclcpp_components</depend>

@@ -26,7 +26,8 @@ enum class BUTTONS_DUALSHOCK4
   DPADUP,
   DPADDOWN,
   DPADLEFT,
-  DPADRIGHT
+  DPADRIGHT,
+  TOUCHPAD = 20
 };
 
 enum class AXES_DUALSHOCK4
@@ -105,7 +106,7 @@ public:
   bool pressedSelect();
   bool pressedStart();
   bool pressedPS();
-  //bool pressedTouchpad();
+  bool pressedTouchpad();
 
   bool pressedDPadUp();
   bool pressedDPadDown();

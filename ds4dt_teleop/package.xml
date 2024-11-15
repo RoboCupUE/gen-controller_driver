@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ds4dt_teleop</name>
+  <version>0.1.0</version>
+  <description>DS4 Teleop for ROS2 Humble</description>
+
+  <maintainer email="hevcuesta@gmail.com">Daniel Cuesta</maintainer>
+  <license>GPL 3.0</license>
+
+<build_depend>ament_cmake</build_depend>
+<build_depend>rclcpp</build_depend>
+<build_depend>sensor_msgs</build_depend>
+<build_depend>geometry_msgs</build_depend>
+<build_depend>ds4dt_interface</build_depend>
+
+<exec_depend>rclcpp</exec_depend>
+<exec_depend>sensor_msgs</exec_depend>
+<exec_depend>geometry_msgs</exec_depend>
+<exec_depend>ds4dt_interface</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

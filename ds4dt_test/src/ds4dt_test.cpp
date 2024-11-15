@@ -48,8 +48,7 @@ void DS4DTTest::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
     RCLCPP_INFO(this->get_logger(), " R1 Pressed!");
   }
 
-  /*
-  if (this->ds4dt_if_->pressedL2()) {
+  if (this->ds4dt_if_->pressedL2Analog() < -0.0) {
     RCLCPP_INFO_STREAM(
       this->get_logger(),
       " L2 Pressed! : " <<
@@ -58,7 +57,7 @@ void DS4DTTest::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
       this->ds4dt_if_->pressedL2Analog());
   }
 
-  if (this->ds4dt_if_->pressedR2()) {
+  if (this->ds4dt_if_->pressedR2Analog() < -0.0) {
     RCLCPP_INFO_STREAM(
       this->get_logger(),
       " R2 Pressed! : " <<
@@ -66,7 +65,7 @@ void DS4DTTest::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
       std::fixed << std::setprecision(3) <<
       this->ds4dt_if_->pressedR2Analog());
   }
-  */
+  
 
   if (this->ds4dt_if_->pressedSelect()) {
     RCLCPP_INFO(this->get_logger(), " Select Pressed!");
@@ -104,11 +103,11 @@ void DS4DTTest::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
     RCLCPP_INFO(this->get_logger(), " RStick Pressed!");
   }
 
-  /*
+  
     if(this->ds4dt_if_->pressedTouchpad()) {
     RCLCPP_INFO(this->get_logger(), " Touchpad Pressed!");
   }
-  */
+  
 
 
   if (
