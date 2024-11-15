@@ -1,0 +1,9 @@
+ds4dt_teleop_node:  
+  ros__parameters:
+    linear_speed: 0.4
+    angular_speed: 0.5
+    linear_speed_multiplier: 0.02
+    angular_speed_multiplier: 0.05
+    
+    vel_topic: "cmd_vel"
+    

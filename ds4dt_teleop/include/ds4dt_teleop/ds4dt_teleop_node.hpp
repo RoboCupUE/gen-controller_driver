@@ -22,6 +22,9 @@ private:
   double angular_speed_multiplier_;
   double linear_speed_multiplier_;
 
+  std::string vel_topic;
+
+
   std::unique_ptr<ds4dt_interface::PlayStationInterface> ds4dt_if_;
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_pub_;

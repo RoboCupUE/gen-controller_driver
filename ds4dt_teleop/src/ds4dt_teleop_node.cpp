@@ -14,15 +14,18 @@ TeleopTwistJoyNode::TeleopTwistJoyNode()
   this->linear_speed_multiplier_ =
     this->declare_parameter<double>("linear_speed_multiplier", 0.02);
 
+  this->vel_topic =
+    this->declare_parameter<std::string>("vel_topic", "cmd_vel");  
+
   this->ds4dt_if_ = std::make_unique<ds4dt_interface::PlayStationInterface>();
 
   using namespace std::placeholders;  // NOLINT
   this->joy_sub_ = this->create_subscription<sensor_msgs::msg::Joy>(
-    "joy", rclcpp::SensorDataQoS().keep_last(1),
+   "/joy", rclcpp::SensorDataQoS().keep_last(1),
     std::bind(&TeleopTwistJoyNode::onJoy, this, _1));
 
   this->twist_pub_ = this->create_publisher<geometry_msgs::msg::Twist>(
-    "cmd_vel", rclcpp::QoS(10).reliable().durability_volatile());
+    vel_topic, rclcpp::QoS(10).durability_volatile());
 
   using namespace std::chrono_literals; // NOLINT
   this->timer_watchdog_ = this->create_wall_timer(
@@ -46,7 +49,7 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
   static bool square_pressed = false;
 
   //Change speed
-  if (this->ds4dt_if_->pressedCircle()) {
+  if (this->ds4dt_if_->pressedDPadUp()) {
     if (!circle_pressed) {
       linear_max_speed_ += linear_speed_multiplier_;
       RCLCPP_INFO(this->get_logger(), "Linear speed increased to %f", linear_max_speed_);
@@ -56,7 +59,7 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
     circle_pressed = false;
   }
 
-  if (this->ds4dt_if_->pressedSquare()) {
+  if (this->ds4dt_if_->pressedDPadRight()) {
     if (!triangle_pressed) {
       angular_max_speed_ += angular_speed_multiplier_;
       RCLCPP_INFO(this->get_logger(), "Angular speed increased to %f", angular_max_speed_);
@@ -66,7 +69,7 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
     triangle_pressed = false;
   }
 
-  if (this->ds4dt_if_->pressedTriangle() && angular_max_speed_ > 0.0) {
+  if (this->ds4dt_if_->pressedDPadLeft() && angular_max_speed_ > 0.0) {
     if (!square_pressed) {
       angular_max_speed_ -= angular_speed_multiplier_;
       RCLCPP_INFO(this->get_logger(), "Angular speed decreased to %f", angular_max_speed_);
@@ -76,7 +79,7 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
     square_pressed = false;
   }
 
-  if (this->ds4dt_if_->pressedCross() && linear_max_speed_ > 0.0) {
+  if (this->ds4dt_if_->pressedDPadDown() && linear_max_speed_ > 0.0) {
     if (!cross_pressed) {
       linear_max_speed_ -= linear_speed_multiplier_;
       RCLCPP_INFO(this->get_logger(), "Linear speed decreased to %f", linear_max_speed_);
