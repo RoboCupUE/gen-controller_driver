@@ -25,7 +25,7 @@ private:
   std::string vel_topic;
 
 
-  std::unique_ptr<ds4dt_interface::PlayStationInterface> ds4dt_if_;
+  std::unique_ptr<ds4dt_interface::ControllerInterface> controller_if_;
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_pub_;
   rclcpp::TimerBase::SharedPtr timer_watchdog_;

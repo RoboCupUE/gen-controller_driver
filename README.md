@@ -1,5 +1,7 @@
 # DS4 JoyDriver w/Teleop for ROS2
-Simple No-Nonsense Dualshock 4 JoyDriver With Teleop (cmd_vel) for ROS2 Humble
+Simple No-Nonsense Controller JoyDriver With Teleop for ROS2 Humble, using ```controller_joy_node```
+
+
 
 
 **Originally forked from: [PlayStation-JoyInterface-ROS2](https://github.com/HarvestX/PlayStation-JoyInterface-ROS2)** <br>

@@ -2,65 +2,65 @@
 
 namespace ds4dt_interface
 {
-    PlayStationInterface::PlayStationInterface()
-        : LOGGER_(rclcpp::get_logger("PlayStationInterface"))
+    ControllerInterface::ControllerInterface()
+        : LOGGER_(rclcpp::get_logger("ControllerInterface"))
     {
 
         this->btn_idx_ = std::make_unique<JoyButtonIdx>();
         this->axes_idx_ = std::make_unique<JoyAxesIdx>();
 
         this->btn_idx_->cross =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::CROSS);
+            static_cast<size_t>(CONTROLLER_BUTTONS::CROSS);
         this->btn_idx_->circle =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::CIRCLE);
+            static_cast<size_t>(CONTROLLER_BUTTONS::CIRCLE);
         this->btn_idx_->triangle =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::TRIANGLE);
+            static_cast<size_t>(CONTROLLER_BUTTONS::TRIANGLE);
         this->btn_idx_->square =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::SQUARE);
+            static_cast<size_t>(CONTROLLER_BUTTONS::SQUARE);
 
         this->btn_idx_->dpad_up =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::DPADUP);
+            static_cast<size_t>(CONTROLLER_BUTTONS::DPADUP);
         this->btn_idx_->dpad_down =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::DPADDOWN);  
+            static_cast<size_t>(CONTROLLER_BUTTONS::DPADDOWN);  
         this->btn_idx_->dpad_right =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::DPADRIGHT);
+            static_cast<size_t>(CONTROLLER_BUTTONS::DPADRIGHT);
         this->btn_idx_->dpad_left =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::DPADLEFT);
+            static_cast<size_t>(CONTROLLER_BUTTONS::DPADLEFT);
 
         this->btn_idx_->LStickClick =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::LSTICKCLICK);
+            static_cast<size_t>(CONTROLLER_BUTTONS::LSTICKCLICK);
         this->btn_idx_->RStickClick =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::RSTICKCLICK);
+            static_cast<size_t>(CONTROLLER_BUTTONS::RSTICKCLICK);
 
         this->btn_idx_->L1 =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::L1);
+            static_cast<size_t>(CONTROLLER_BUTTONS::L1);
         this->btn_idx_->R1 =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::R1);
+            static_cast<size_t>(CONTROLLER_BUTTONS::R1);
 
         this->btn_idx_->select =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::SELECT);
+            static_cast<size_t>(CONTROLLER_BUTTONS::SELECT);
         this->btn_idx_->start =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::START);
+            static_cast<size_t>(CONTROLLER_BUTTONS::START);
         this->btn_idx_->PS =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::PS);
+            static_cast<size_t>(CONTROLLER_BUTTONS::PS);
         this->btn_idx_->touchpad =
-            static_cast<size_t>(BUTTONS_DUALSHOCK4::TOUCHPAD);
+            static_cast<size_t>(CONTROLLER_BUTTONS::TOUCHPAD);
 
         this->axes_idx_->stick_lx =
-            static_cast<size_t>(AXES_DUALSHOCK4::STICK_LX);
+            static_cast<size_t>(CONTROLLER_AXES::STICK_LX);
         this->axes_idx_->stick_ly =
-            static_cast<size_t>(AXES_DUALSHOCK4::STICK_LY);
+            static_cast<size_t>(CONTROLLER_AXES::STICK_LY);
         this->axes_idx_->stick_rx =
-            static_cast<size_t>(AXES_DUALSHOCK4::STICK_RX);
+            static_cast<size_t>(CONTROLLER_AXES::STICK_RX);
         this->axes_idx_->stick_ry =
-            static_cast<size_t>(AXES_DUALSHOCK4::STICK_RY);
+            static_cast<size_t>(CONTROLLER_AXES::STICK_RY);
         this->axes_idx_->R2_analog =
-            static_cast<size_t>(AXES_DUALSHOCK4::R2);
+            static_cast<size_t>(CONTROLLER_AXES::R2);
         this->axes_idx_->L2_analog =
-            static_cast<size_t>(AXES_DUALSHOCK4::L2);
+            static_cast<size_t>(CONTROLLER_AXES::L2);
     }
 
-bool PlayStationInterface::isAvailable()
+bool ControllerInterface::isAvailable()
 {
   if (this->joy_) {
     return true;
@@ -71,17 +71,17 @@ bool PlayStationInterface::isAvailable()
   return false;
 }
 
-bool PlayStationInterface::isTilted(const size_t idx, const double threshold)
+bool ControllerInterface::isTilted(const size_t idx, const double threshold)
 {
   return std::abs(this->joy_->axes.at(idx)) > threshold;
 }
 
-void PlayStationInterface::setJoyMsg(sensor_msgs::msg::Joy::ConstSharedPtr msg)
+void ControllerInterface::setJoyMsg(sensor_msgs::msg::Joy::ConstSharedPtr msg)
 {
   this->joy_ = msg;
 }
 
-bool PlayStationInterface::pressedAny()
+bool ControllerInterface::pressedAny()
 {
   if (!this->isAvailable()) {
     return false;
@@ -101,7 +101,7 @@ bool PlayStationInterface::pressedAny()
   return pressed;
 }
 
-bool PlayStationInterface::pressedSquare()
+bool ControllerInterface::pressedSquare()
 {
   if (!this->isAvailable()) {
     return false;
@@ -110,7 +110,7 @@ bool PlayStationInterface::pressedSquare()
     this->btn_idx_->square);
 }
 
-bool PlayStationInterface::pressedCircle()
+bool ControllerInterface::pressedCircle()
 {
   if (!this->isAvailable()) {
     return false;
@@ -119,7 +119,7 @@ bool PlayStationInterface::pressedCircle()
     this->btn_idx_->circle);
 }
 
-bool PlayStationInterface::pressedTriangle()
+bool ControllerInterface::pressedTriangle()
 {
   if (!this->isAvailable()) {
     return false;
@@ -128,7 +128,7 @@ bool PlayStationInterface::pressedTriangle()
     this->btn_idx_->triangle);
 }
 
-bool PlayStationInterface::pressedCross()
+bool ControllerInterface::pressedCross()
 {
   if (!this->isAvailable()) {
     return false;
@@ -137,7 +137,7 @@ bool PlayStationInterface::pressedCross()
     this->btn_idx_->cross);
 }
 
-bool PlayStationInterface::pressedL1()
+bool ControllerInterface::pressedL1()
 {
   if (!this->isAvailable()) {
     return false;
@@ -146,7 +146,7 @@ bool PlayStationInterface::pressedL1()
     this->btn_idx_->L1);
 }
 
-bool PlayStationInterface::pressedR1()
+bool ControllerInterface::pressedR1()
 {
   if (!this->isAvailable()) {
     return false;
@@ -156,7 +156,7 @@ bool PlayStationInterface::pressedR1()
 }
 
 
-bool PlayStationInterface::pressedSelect()
+bool ControllerInterface::pressedSelect()
 {
   if (!this->isAvailable()) {
     return false;
@@ -165,7 +165,7 @@ bool PlayStationInterface::pressedSelect()
     this->btn_idx_->select);
 }
 
-bool PlayStationInterface::pressedStart()
+bool ControllerInterface::pressedStart()
 {
   if (!this->isAvailable()) {
     return false;
@@ -174,7 +174,7 @@ bool PlayStationInterface::pressedStart()
     this->btn_idx_->start);
 }
 
-bool PlayStationInterface::pressedPS()
+bool ControllerInterface::pressedPS()
 {
   if (!this->isAvailable()) {
     return false;
@@ -183,7 +183,7 @@ bool PlayStationInterface::pressedPS()
     this->btn_idx_->PS);
 }
 
-bool PlayStationInterface::pressedTouchpad()
+bool ControllerInterface::pressedTouchpad()
 {
   if (!this->isAvailable()) {
     return false;
@@ -195,7 +195,7 @@ bool PlayStationInterface::pressedTouchpad()
 
 
 
-bool PlayStationInterface::pressedDPadUp()
+bool ControllerInterface::pressedDPadUp()
 {
   if (!this->isAvailable()) {
     return false;
@@ -204,7 +204,7 @@ bool PlayStationInterface::pressedDPadUp()
     this->btn_idx_->dpad_up);
 }
 
-bool PlayStationInterface::pressedDPadDown()
+bool ControllerInterface::pressedDPadDown()
 {
   if (!this->isAvailable()) {
     return false;
@@ -212,7 +212,7 @@ bool PlayStationInterface::pressedDPadDown()
   return this->joy_->buttons.at(
     this->btn_idx_->dpad_down);
 }
-bool PlayStationInterface::pressedDPadRight()
+bool ControllerInterface::pressedDPadRight()
 {
   if (!this->isAvailable()) {
     return false;
@@ -221,7 +221,7 @@ bool PlayStationInterface::pressedDPadRight()
     this->btn_idx_->dpad_right);
 }
 
-bool PlayStationInterface::pressedDPadLeft()
+bool ControllerInterface::pressedDPadLeft()
 {
   if (!this->isAvailable()) {
     return false;
@@ -231,7 +231,7 @@ bool PlayStationInterface::pressedDPadLeft()
 }
 
 
-float PlayStationInterface::tiltedStickLX()
+float ControllerInterface::tiltedStickLX()
 {
   if (!this->isAvailable()) {
     return false;
@@ -240,7 +240,7 @@ float PlayStationInterface::tiltedStickLX()
     this->axes_idx_->stick_lx);
 }
 
-float PlayStationInterface::tiltedStickLY()
+float ControllerInterface::tiltedStickLY()
 {
   if (!this->isAvailable()) {
     return false;
@@ -249,7 +249,7 @@ float PlayStationInterface::tiltedStickLY()
     this->axes_idx_->stick_ly);
 }
 
-bool PlayStationInterface::isTiltedStickL()
+bool ControllerInterface::isTiltedStickL()
 {
   if (!this->isAvailable()) {
     return false;
@@ -259,7 +259,7 @@ bool PlayStationInterface::isTiltedStickL()
          this->isTilted(this->axes_idx_->stick_ly);
 }
 
-float PlayStationInterface::tiltedStickRX()
+float ControllerInterface::tiltedStickRX()
 {
   if (!this->isAvailable()) {
     return false;
@@ -268,7 +268,7 @@ float PlayStationInterface::tiltedStickRX()
     this->axes_idx_->stick_rx);
 }
 
-float PlayStationInterface::tiltedStickRY()
+float ControllerInterface::tiltedStickRY()
 {
   if (!this->isAvailable()) {
     return false;
@@ -277,7 +277,7 @@ float PlayStationInterface::tiltedStickRY()
     this->axes_idx_->stick_ry);
 }
 
-bool PlayStationInterface::isTiltedStickR()
+bool ControllerInterface::isTiltedStickR()
 {
   if (!this->isAvailable()) {
     return false;
@@ -287,7 +287,7 @@ bool PlayStationInterface::isTiltedStickR()
          this->isTilted(this->axes_idx_->stick_ry);
 }
 
-float PlayStationInterface::pressedR2Analog()
+float ControllerInterface::pressedR2Analog()
 {
   if (!this->isAvailable()) {
     return false;
@@ -296,7 +296,7 @@ float PlayStationInterface::pressedR2Analog()
     this->axes_idx_->R2_analog);
 }
 
-float PlayStationInterface::pressedL2Analog()
+float ControllerInterface::pressedL2Analog()
 {
   if (!this->isAvailable()) {
     return false;
@@ -305,7 +305,7 @@ float PlayStationInterface::pressedL2Analog()
     this->axes_idx_->L2_analog);
 }
 
-bool PlayStationInterface::pressedLStick()
+bool ControllerInterface::pressedLStick()
 {
   if (!this->isAvailable()) {
     return false;
@@ -314,7 +314,7 @@ bool PlayStationInterface::pressedLStick()
     this->btn_idx_->LStickClick);
 }
 
-bool PlayStationInterface::pressedRStick()
+bool ControllerInterface::pressedRStick()
 {
   if (!this->isAvailable()) {
     return false;

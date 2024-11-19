@@ -10,7 +10,7 @@
 
 namespace ds4dt_interface
 {
-enum class BUTTONS_DUALSHOCK4
+enum class CONTROLLER_BUTTONS
 {
   CROSS = 0,
   CIRCLE,
@@ -30,7 +30,7 @@ enum class BUTTONS_DUALSHOCK4
   TOUCHPAD = 20
 };
 
-enum class AXES_DUALSHOCK4
+enum class CONTROLLER_AXES
 {
   STICK_LX = 0,
   STICK_LY,
@@ -74,10 +74,10 @@ typedef struct
   size_t L2_analog;
 } JoyAxesIdx;
 
-class PlayStationInterface
+class ControllerInterface
 {
 public:
-  using UniquePtr = std::unique_ptr<PlayStationInterface>;
+  using UniquePtr = std::unique_ptr<ControllerInterface>;
 
 private:
   sensor_msgs::msg::Joy::ConstSharedPtr joy_;
@@ -90,7 +90,7 @@ private:
   bool isTilted(const size_t, const double = 1e-1);
 
 public:
-  explicit PlayStationInterface();
+  explicit ControllerInterface();
   void setJoyMsg(sensor_msgs::msg::Joy::ConstSharedPtr);
 
   bool pressedAny();

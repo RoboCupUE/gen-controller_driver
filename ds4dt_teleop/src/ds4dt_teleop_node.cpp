@@ -17,7 +17,7 @@ TeleopTwistJoyNode::TeleopTwistJoyNode()
   this->vel_topic =
     this->declare_parameter<std::string>("vel_topic", "cmd_vel");  
 
-  this->ds4dt_if_ = std::make_unique<ds4dt_interface::PlayStationInterface>();
+  this->controller_if_ = std::make_unique<ds4dt_interface::ControllerInterface>();
 
   using namespace std::placeholders;  // NOLINT
   this->joy_sub_ = this->create_subscription<sensor_msgs::msg::Joy>(
@@ -40,7 +40,7 @@ TeleopTwistJoyNode::TeleopTwistJoyNode()
 void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
 {
   this->timer_watchdog_->reset();
-  this->ds4dt_if_->setJoyMsg(joy_msg);
+  this->controller_if_->setJoyMsg(joy_msg);
 
   static bool stopped = true;
   static bool circle_pressed = false;
@@ -49,7 +49,7 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
   static bool square_pressed = false;
 
   //Change speed
-  if (this->ds4dt_if_->pressedDPadUp()) {
+  if (this->controller_if_->pressedDPadUp()) {
     if (!circle_pressed) {
       linear_max_speed_ += linear_speed_multiplier_;
       RCLCPP_INFO(this->get_logger(), "Linear speed increased to %f", linear_max_speed_);
@@ -59,7 +59,7 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
     circle_pressed = false;
   }
 
-  if (this->ds4dt_if_->pressedDPadRight()) {
+  if (this->controller_if_->pressedDPadRight()) {
     if (!triangle_pressed) {
       angular_max_speed_ += angular_speed_multiplier_;
       RCLCPP_INFO(this->get_logger(), "Angular speed increased to %f", angular_max_speed_);
@@ -69,7 +69,7 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
     triangle_pressed = false;
   }
 
-  if (this->ds4dt_if_->pressedDPadLeft() && angular_max_speed_ > 0.0) {
+  if (this->controller_if_->pressedDPadLeft() && angular_max_speed_ > 0.0) {
     if (!square_pressed) {
       angular_max_speed_ -= angular_speed_multiplier_;
       RCLCPP_INFO(this->get_logger(), "Angular speed decreased to %f", angular_max_speed_);
@@ -79,7 +79,7 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
     square_pressed = false;
   }
 
-  if (this->ds4dt_if_->pressedDPadDown() && linear_max_speed_ > 0.0) {
+  if (this->controller_if_->pressedDPadDown() && linear_max_speed_ > 0.0) {
     if (!cross_pressed) {
       linear_max_speed_ -= linear_speed_multiplier_;
       RCLCPP_INFO(this->get_logger(), "Linear speed decreased to %f", linear_max_speed_);
@@ -90,13 +90,13 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
   }
 
   //Spin
-  if (this->ds4dt_if_->pressedL1()) {
+  if (this->controller_if_->pressedL1()) {
     RCLCPP_INFO(this->get_logger(), "Spinning left");
     auto twist_msg = std::make_unique<geometry_msgs::msg::Twist>();
     twist_msg->angular.set__z(this->angular_max_speed_);
     this->twist_pub_->publish(std::move(twist_msg));
     stopped = false;
-  } else if (this->ds4dt_if_->pressedR1()) {
+  } else if (this->controller_if_->pressedR1()) {
     RCLCPP_INFO(this->get_logger(), "Spinning right");
     auto twist_msg = std::make_unique<geometry_msgs::msg::Twist>();
     twist_msg->angular.set__z(-this->angular_max_speed_);
@@ -105,17 +105,17 @@ void TeleopTwistJoyNode::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
   }
 
   //If moving
-  if (this->ds4dt_if_->isTiltedStickL()) {
+  if (this->controller_if_->isTiltedStickL()) {
     auto twist_msg = std::make_unique<geometry_msgs::msg::Twist>();
-    twist_msg->linear.set__x(this->linear_max_speed_ * this->ds4dt_if_->tiltedStickLY());
+    twist_msg->linear.set__x(this->linear_max_speed_ * this->controller_if_->tiltedStickLY());
 
-    if (this->ds4dt_if_->tiltedStickLY() > sin(M_PI * 0.125)) {
-      twist_msg->angular.set__z(this->angular_max_speed_ * this->ds4dt_if_->tiltedStickLX());
-    } else if (this->ds4dt_if_->tiltedStickLY() < sin(-M_PI * 0.125)) {
-      twist_msg->angular.set__z(-this->angular_max_speed_ * this->ds4dt_if_->tiltedStickLX());
+    if (this->controller_if_->tiltedStickLY() > sin(M_PI * 0.125)) {
+      twist_msg->angular.set__z(this->angular_max_speed_ * this->controller_if_->tiltedStickLX());
+    } else if (this->controller_if_->tiltedStickLY() < sin(-M_PI * 0.125)) {
+      twist_msg->angular.set__z(-this->angular_max_speed_ * this->controller_if_->tiltedStickLX());
     } else {
       twist_msg->linear.set__x(0.0);
-      twist_msg->angular.set__z(this->angular_max_speed_ * this->ds4dt_if_->tiltedStickLX());
+      twist_msg->angular.set__z(this->angular_max_speed_ * this->controller_if_->tiltedStickLX());
     }
     this->twist_pub_->publish(std::move(twist_msg));
 

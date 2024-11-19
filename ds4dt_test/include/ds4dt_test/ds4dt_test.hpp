@@ -14,7 +14,7 @@ public:
 private:
     void onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg);
 
-    std::unique_ptr<ds4dt_interface::PlayStationInterface> ds4dt_if_;
+    std::unique_ptr<ds4dt_interface::ControllerInterface> controller_if_;
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
 };
 } // namespace ds4dt_test
