@@ -3,9 +3,9 @@
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/joy.hpp>
 #include <geometry_msgs/msg/twist.hpp>
-#include "ds4dt_interface/ds4dt_interface.hpp"
+#include "controller_interface/controller_interface.hpp"
 
-namespace ds4dt_teleop
+namespace controller_teleop
 {
 
 class TeleopTwistJoyNode : public rclcpp::Node
@@ -25,10 +25,10 @@ private:
   std::string vel_topic;
 
 
-  std::unique_ptr<ds4dt_interface::ControllerInterface> controller_if_;
+  std::unique_ptr<controller_interface::ControllerInterface> controller_if_;
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_pub_;
   rclcpp::TimerBase::SharedPtr timer_watchdog_;
 };
 
-}  // namespace ds4dt_teleop
+}  // namespace controller_teleop

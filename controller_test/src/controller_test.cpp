@@ -1,17 +1,16 @@
-#include "ds4dt_test/ds4dt_test.hpp"
+#include "controller_test/controller_test.hpp"
 
-namespace ds4dt_test
+namespace controller_test
 {
 
-DS4DTTest::DS4DTTest()
-: rclcpp::Node("ds4dt_test")
+ControlTest::ControlTest()
+: rclcpp::Node("controller_test")
 {
-  // Inicializar ControllerInterface sin especificar hw_type
-  this->controller_if_ = std::make_unique<ds4dt_interface::ControllerInterface>();
+  this->controller_if_ = std::make_unique<controller_interface::ControllerInterface>();
 
   this->joy_sub_ = this->create_subscription<sensor_msgs::msg::Joy>(
     "joy", rclcpp::SensorDataQoS(rclcpp::KeepLast(1)),
-    std::bind(&DS4DTTest::onJoy, this, std::placeholders::_1));
+    std::bind(&ControlTest::onJoy, this, std::placeholders::_1));
 
   if (this->joy_sub_->get_publisher_count() == 0) {
     RCLCPP_WARN(
@@ -20,7 +19,7 @@ DS4DTTest::DS4DTTest()
   }
 }
 
-void DS4DTTest::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
+void ControlTest::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
 {
   this->controller_if_->setJoyMsg(joy_msg);
 
@@ -142,13 +141,13 @@ void DS4DTTest::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg)
   }
 }
 
-}  // namespace ds4dt_test
+}  // namespace controller_test
 
-// Añadir la función main
+
 int main(int argc, char **argv)
 {
   rclcpp::init(argc, argv);
-  auto node = std::make_shared<ds4dt_test::DS4DTTest>();
+  auto node = std::make_shared<controller_test::ControlTest>();
   rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;

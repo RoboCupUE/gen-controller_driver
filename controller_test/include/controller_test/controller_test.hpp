@@ -2,19 +2,19 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/joy.hpp>
-#include "ds4dt_interface/ds4dt_interface.hpp"
+#include "controller_interface/controller_interface.hpp"
 
-namespace ds4dt_test
+namespace controller_test
 {
-class DS4DTTest : public rclcpp::Node
+class ControlTest : public rclcpp::Node
 {
 public:
-    DS4DTTest();
+    ControlTest();
 
 private:
     void onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg);
 
-    std::unique_ptr<ds4dt_interface::ControllerInterface> controller_if_;
+    std::unique_ptr<controller_interface::ControllerInterface> controller_if_;
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
 };
 } // namespace ds4dt_test

@@ -1,6 +1,6 @@
-#include "ds4dt_teleop/ds4dt_teleop_node.hpp"
+#include "controller_teleop/controller_teleop_node.hpp"
 
-namespace ds4dt_teleop
+namespace controller_teleop
 {
 TeleopTwistJoyNode::TeleopTwistJoyNode()
 : rclcpp::Node("teleop_twist_joy_node")
@@ -17,7 +17,7 @@ TeleopTwistJoyNode::TeleopTwistJoyNode()
   this->vel_topic =
     this->declare_parameter<std::string>("vel_topic", "cmd_vel");  
 
-  this->controller_if_ = std::make_unique<ds4dt_interface::ControllerInterface>();
+  this->controller_if_ = std::make_unique<controller_interface::ControllerInterface>();
 
   using namespace std::placeholders;  // NOLINT
   this->joy_sub_ = this->create_subscription<sensor_msgs::msg::Joy>(
@@ -139,13 +139,13 @@ void TeleopTwistJoyNode::onWatchdog()
 
   this->timer_watchdog_->cancel();
 }
-}  // namespace ds4dt_node
+}  // namespace controller_teleop_node
 
 
 int main(int argc, char **argv)
 {
   rclcpp::init(argc, argv);
-  auto node = std::make_shared<ds4dt_teleop::TeleopTwistJoyNode>();
+  auto node = std::make_shared<controller_teleop::TeleopTwistJoyNode>();
   rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;

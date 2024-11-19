@@ -8,7 +8,7 @@
 #include <sensor_msgs/msg/joy.hpp>
 
 
-namespace ds4dt_interface
+namespace controller_interface
 {
 enum class CONTROLLER_BUTTONS
 {
@@ -127,4 +127,4 @@ public:
   float pressedR2Analog();
   float pressedL2Analog();
 };
-}  // namespace ds4d_interface
+}  // namespace controller_interface

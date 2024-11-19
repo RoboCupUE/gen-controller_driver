@@ -1,4 +1,4 @@
-ds4dt_teleop_node:  
+controller_teleop_node:  
   ros__parameters:
     linear_speed: 0.4
     angular_speed: 0.5

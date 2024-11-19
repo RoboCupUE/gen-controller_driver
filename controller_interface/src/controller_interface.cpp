@@ -1,6 +1,6 @@
-#include "ds4dt_interface/ds4dt_interface.hpp"
+#include "controller_interface/controller_interface.hpp"
 
-namespace ds4dt_interface
+namespace controller_interface
 {
     ControllerInterface::ControllerInterface()
         : LOGGER_(rclcpp::get_logger("ControllerInterface"))
@@ -324,5 +324,5 @@ bool ControllerInterface::pressedRStick()
 }
 
 
-}
+} // namespace controller_interface
 

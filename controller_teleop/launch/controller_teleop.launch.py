@@ -13,11 +13,10 @@ def generate_launch_description():
     
     return LaunchDescription([
         Node(
-            package='ds4dt_teleop',
-            executable='ds4dt_teleop_node',
-            name='ds4dt_teleop_node',
-            parameters=[config],
-            namespace='tb4'
+            package='controller_teleop',
+            executable='controller_teleop_node',
+            name='controller_teleop_node',
+            parameters=[config]
         ),
         Node(
             package='joy',
