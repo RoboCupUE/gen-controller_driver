@@ -1,9 +1,7 @@
 controller_teleop_node:  
   ros__parameters:
-    linear_speed: 0.4
+    linear_speed: 0.25
     angular_speed: 0.5
     linear_speed_multiplier: 0.02
     angular_speed_multiplier: 0.05
-    
-    vel_topic: "cmd_vel"
-    
+    vel_topic: "commands/velocity"
